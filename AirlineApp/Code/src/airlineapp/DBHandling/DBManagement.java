@@ -1,9 +1,11 @@
 package airlineapp.DBHandling;
 
-import airlineapp.Login.Login;
+import airlineapp.Login.*;
 import airlineapp.Registration.Client;
 import airlineapp.Registration.Worker;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBManagement {
 
@@ -19,9 +21,19 @@ public class DBManagement {
         return conn;
     }
 
-    public static void insertNewUser(Client newClient) {
+    public static void closeDBConnection(Connection connection) {
         try {
-            CallableStatement statement = connectToDB().prepareCall(
+            connection.close();
+            System.out.println("DB Connection closed!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void insertNewUser(Client newClient) {
+        Connection conn = connectToDB();
+        try {
+            CallableStatement statement = conn.prepareCall(
                     "{call CreateUser(?,?,?,?,?,?,?,?)}");
             statement.setObject(1, newClient.getId());
             statement.setObject(2, newClient.getName());
@@ -36,12 +48,15 @@ public class DBManagement {
             System.out.println("New User Created!");
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            closeDBConnection(conn);
         }
     }
 
     public static void insertNewWorker(Worker newWorker) {
+        Connection conn = connectToDB();
         try {
-            CallableStatement statement = connectToDB().prepareCall(
+            CallableStatement statement = conn.prepareCall(
                     "{call CreateWorker(?,?,?,?,?,?,?,?,?)}");
             statement.setObject(1, newWorker.getId());
             statement.setObject(2, newWorker.getName());
@@ -57,13 +72,16 @@ public class DBManagement {
             System.out.println("New Worker created!");
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            closeDBConnection(conn);
         }
     }
 
-    public static CallableStatement userRetrieve(String emailParamenter) {
+    public static CallableStatement userRetrieve(String emailParamenter) throws SQLException {
+        Connection conn = connectToDB();
+        CallableStatement statement
+                = conn.prepareCall("{call UserRetrieve(?,?,?,?)}");
         try {
-            CallableStatement statement = 
-                    connectToDB().prepareCall("{call UserRetrieve(?,?,?,?)}");
             statement.setString(1, emailParamenter);
             statement.registerOutParameter(2, Types.VARCHAR);
             statement.registerOutParameter(3, Types.VARCHAR);
@@ -75,27 +93,50 @@ public class DBManagement {
             return null;
         }
     }
-    
-    public static boolean loginUser(String email, String password){
-        try{
-            CallableStatement statement = 
-                    connectToDB().prepareCall("{call LoginUser(?,?)}");
+
+    public static boolean loginUser(String email, String password) {
+        Connection conn = connectToDB();
+        CallableStatement statement = null;
+        try {
+            statement = conn.prepareCall("{call LoginUser(?,?,?,?)}");
             statement.setString(1, email);
             statement.setString(2, password);
-            statement.execute();
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()){
-                // This work to get info from users later
-                Login.name = rs.getString(1);
-                Login.email = rs.getString(2);
-                Login.isLoggedIn = true;
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+            statement.executeUpdate();
+            if (thereAreOutputs(statement)) {
+                setLoginAttributes(statement);
                 return true;
-            }else {
-                return false;
             }
-        }catch(Exception e){
-            System.out.println(e);
-            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeDBConnection(conn);
         }
+        return false;
+    }
+
+    public static void setLoginAttributes(CallableStatement statement) {
+        try {
+            System.out.println(statement.getObject("out_name").toString());
+            System.out.println(statement.getObject("out_email").toString());
+            LoginSession.name = statement.getObject("out_name").toString();
+            LoginSession.email = statement.getObject("out_email").toString();
+            LoginSession.isLoggedIn = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static boolean thereAreOutputs(CallableStatement statement) {
+        try {
+            if (statement.getObject("out_name") != null
+                    && statement.getObject("out_email") != null) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
