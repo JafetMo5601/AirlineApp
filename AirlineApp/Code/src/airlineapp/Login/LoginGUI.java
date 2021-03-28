@@ -1,20 +1,13 @@
 package airlineapp.Login;
 
-import airlineapp.Login.Login;
-import java.sql.SQLException;
-import airlineapp.DBHandling.Encryptation;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JCheckBox;
-
 public class LoginGUI extends javax.swing.JFrame {
+
     public LoginGUI() {
         initComponents();
         this.setTitle("Login");
         this.setLocationRelativeTo(null);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -143,9 +136,9 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordInputActionPerformed
 
     private void cbxShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxShowPasswordActionPerformed
-        if (cbxShowPassword.isSelected()){
-            txtPasswordInput.setEchoChar((char)0);
-        }else{
+        if (cbxShowPassword.isSelected()) {
+            txtPasswordInput.setEchoChar((char) 0);
+        } else {
             txtPasswordInput.setEchoChar('*');
         }
     }//GEN-LAST:event_cbxShowPasswordActionPerformed
@@ -158,22 +151,10 @@ public class LoginGUI extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String email = txtEmailInput.getText();
         String password = String.copyValueOf(txtPasswordInput.getPassword());
-        try {
-            password = new Encryptation().getSHA256SecurePassword(
-                    password,
-                    new Encryptation().getSalt(
-                            new Login().generateToken(email)));
-            System.out.println(new Encryptation().getSalt(
-                            new Login().generateToken(email)));
-            System.out.println(password);
-            new Login().verifyUser(email, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new Login().verifyUser(email, password);
+        this.setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
-
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
