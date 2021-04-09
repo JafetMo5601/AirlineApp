@@ -1,13 +1,12 @@
 package airlineapp.Login;
 
 public class LoginGUI extends javax.swing.JFrame {
-
     public LoginGUI() {
         initComponents();
         this.setTitle("Login");
         this.setLocationRelativeTo(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -136,25 +135,25 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordInputActionPerformed
 
     private void cbxShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxShowPasswordActionPerformed
-        if (cbxShowPassword.isSelected()) {
+        if (cbxShowPassword.isSelected()){
             txtPasswordInput.setEchoChar((char) 0);
-        } else {
+        }else{
             txtPasswordInput.setEchoChar('*');
         }
     }//GEN-LAST:event_cbxShowPasswordActionPerformed
 
     private void btnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel1ActionPerformed
         new Login().goBack();
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnCancel1ActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String email = txtEmailInput.getText();
         String password = String.copyValueOf(txtPasswordInput.getPassword());
         new Login().verifyUser(email, password);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
-    
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

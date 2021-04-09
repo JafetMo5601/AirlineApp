@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2021 at 10:35 PM
+-- Generation Time: Apr 03, 2021 at 05:10 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -29,13 +29,13 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `CreateUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateUser` (IN `user_id` INT(12), IN `name` VARCHAR(30), IN `last_name` VARCHAR(50), IN `birthday` DATE, IN `email` VARCHAR(255), IN `password` VARCHAR(90), IN `sex` CHAR(1), IN `address` VARCHAR(255))  BEGIN
-	INSERT INTO users (`user_id`, `name`, `last_name`, `birthday`, `email`, `password`, `sex`, `address`) 
+	INSERT INTO users (`user_id`, `name`, `last_name`, `birthday`, `email`, `password`, `sex`, `address`)
     VALUES (user_id,name,last_name,birthday,email,password,sex,address);
 END$$
 
 DROP PROCEDURE IF EXISTS `CreateWorker`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateWorker` (IN `user_id` INT(12), IN `name` VARCHAR(30), IN `last_name` VARCHAR(50), IN `birthday` DATE, IN `email` VARCHAR(255), IN `password` VARCHAR(90), IN `sex` CHAR(1), IN `address` VARCHAR(255), IN `admin_access` INT(1))  BEGIN
-	INSERT INTO workers (`user_id`, `name`, `last_name`, `birthday`, `email`, `password`, `sex`, `address`, `admin_access_id`) 
+	INSERT INTO workers (`user_id`, `name`, `last_name`, `birthday`, `email`, `password`, `sex`, `address`, `admin_access_id`)
     VALUES (user_id,name,last_name,birthday,email,password,sex,address,admin_access);
 END$$
 
@@ -48,31 +48,38 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteWorker` (IN `wId` VARCHAR(255
 END$$
 
 DROP PROCEDURE IF EXISTS `LoginUser`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `LoginUser` (IN `uEmail` VARCHAR(255), IN `uPassword` VARCHAR(64), OUT `out_name` VARCHAR(30), OUT `out_email` VARCHAR(50))  BEGIN 
-	SELECT `name`, `email` 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LoginUser` (IN `uEmail` VARCHAR(255), IN `uPassword` VARCHAR(64), OUT `out_name` VARCHAR(30), OUT `out_email` VARCHAR(50))  BEGIN
+	SELECT `name`, `email`
     INTO out_name, out_email
     FROM users
 	WHERE `email` = uEmail AND `password` = uPassword;
 END$$
 
-DROP PROCEDURE IF EXISTS `UpdateWorkerAccess`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateWorkerAccess` (IN `wId` INT(12), IN `wAccess` VARCHAR(1))  BEGIN
-	UPDATE `workers` 
-    SET `admin_access_id` = wAccess 
-    WHERE `workers`.`user_id` = wId;
+DROP PROCEDURE IF EXISTS `SaveBook`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveBook` (IN `id` VARCHAR(25), IN `bookdate` DATE, IN `source` VARCHAR(40), IN `destination` VARCHAR(40), IN `depTime` VARCHAR(40), IN `arrTime` VARCHAR(40), IN `fClass` VARCHAR(40), IN `passengers` VARCHAR(40))  NO SQL
+BEGIN
+  INSERT INTO tickets (`id`, `bookdate`, `source`, `destination`, `depTime`, `arrTime`, `fClass`, `passengers`)
+    VALUES (id,bookdate,source,destination,depTime,arrTime,fClass,passengers);
 END$$
 
-DROP PROCEDURE IF EXISTS `UpdateWorkerEmail`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateWorkerEmail` (IN `wEmail` VARCHAR(255), IN `wId` INT(12))  BEGIN
-	UPDATE `workers` 
-    SET `email` = 'wEmail' 
-    WHERE `workers`.`user_id` = wId;
+DROP PROCEDURE IF EXISTS `UpdateWorkerInfo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateWorkerInfo` (IN `wName` VARCHAR(30), IN `wLast` VARCHAR(50), IN `wEmail` VARCHAR(255), IN `wPassword` VARCHAR(90), IN `wBirthday` DATE, IN `wSex` VARCHAR(1), IN `wAddress` VARCHAR(255), IN `wAccess` INT(1), IN `wId` INT(12))  BEGIN
+UPDATE workers
+SET `name` = wName
+	,`last_name` = wLast
+    ,`email` = wEmail
+    ,`password` = wPassword
+    ,`birthdat` = wBirthday
+    ,`sex` = wSex
+    ,`address` = wAddress
+    ,`admin_access_id` = wAccess
+WHERE `user_id` = wId;
 END$$
 
 DROP PROCEDURE IF EXISTS `UserRetrieve`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UserRetrieve` (IN `in_email` VARCHAR(255), OUT `out_user_id` VARCHAR(12), OUT `out_name` VARCHAR(30), OUT `out_last_name` VARCHAR(50))  BEGIN
 
-SELECT `user_id`, `name`, `last_name` 
+SELECT `user_id`, `name`, `last_name`
 INTO out_user_id, out_name, out_last_name
 FROM users WHERE `email` = in_email;
 
@@ -97,7 +104,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `WorkerRetrieve` (IN `wId` INT(12), 
         ,out_sex
         ,out_address
         ,out_admin_access
-    FROM `workers` 
+    FROM `workers`
     WHERE `workers`.`user_id` = wId;
 
 END$$
@@ -107,9 +114,38 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `tickets`
 --
--- Creation: Mar 17, 2021 at 06:41 AM
+
+CREATE TABLE `tickets` (
+  `id` varchar(40) NOT NULL,
+  `bookdate` date NOT NULL,
+  `source` varchar(40) NOT NULL,
+  `destination` varchar(40) NOT NULL,
+  `depTime` varchar(40) NOT NULL,
+  `arrTime` varchar(40) NOT NULL,
+  `fClass` varchar(40) NOT NULL,
+  `passengers` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `bookdate`, `source`, `destination`, `depTime`, `arrTime`, `fClass`, `passengers`) VALUES
+('bcwhma', '2021-04-09', 'USA', 'Mexico', '00:00', '00:00', 'First Class', '2'),
+('cbzmvb', '2021-03-10', 'USA', 'Panama', '01:00', '03:00', 'First Class', '2'),
+('cwxdpn', '2021-03-17', 'USA', 'Panama', '01:00', '06:00', 'First Class', '2'),
+('ffihis', '2021-04-13', 'USA', 'Mexico', '01:00', '02:00', 'First Class', '2'),
+('gtxjcu', '2021-03-12', 'USA', 'Mexico', '02:00', '05:00', 'First Class', '2'),
+('kqmdkc', '2021-03-02', 'USA', 'Mexico', '00:00', '00:00', 'First Class', '2'),
+('mifdmx', '2021-03-05', 'USA', 'Mexico', '02:00', '05:00', 'First Class', '2'),
+('qpkjra', '2021-04-07', 'USA', 'Colombia', '00:00', '01:00', 'First Class', '2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -137,9 +173,6 @@ INSERT INTO `users` (`user_id`, `name`, `last_name`, `birthday`, `email`, `passw
 --
 -- Table structure for table `workers`
 --
--- Creation: Mar 17, 2021 at 06:48 AM
--- Last update: Apr 02, 2021 at 08:34 PM
---
 
 DROP TABLE IF EXISTS `workers`;
 CREATE TABLE `workers` (
@@ -166,9 +199,6 @@ INSERT INTO `workers` (`user_id`, `name`, `last_name`, `birthday`, `email`, `pas
 --
 -- Table structure for table `workers_admin_access`
 --
--- Creation: Mar 17, 2021 at 03:26 AM
--- Last update: Apr 02, 2021 at 07:06 PM
---
 
 DROP TABLE IF EXISTS `workers_admin_access`;
 CREATE TABLE `workers_admin_access` (
@@ -187,6 +217,12 @@ INSERT INTO `workers_admin_access` (`admin_access_id`, `admin_access_name`) VALU
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`

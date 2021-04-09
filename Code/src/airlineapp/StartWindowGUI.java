@@ -77,12 +77,12 @@ public class StartWindowGUI extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         StartWindow.OpenLoginForm();
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         new StartWindow().OpenRegistrationForm();
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     public static void main(String args[]) {

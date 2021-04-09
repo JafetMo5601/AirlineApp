@@ -13,6 +13,7 @@ public class userValidation {
         try{
             DBManagement.loginUser(email, password);
         }catch(Exception e){
+            System.out.println(e);
         }
         return true;
     }

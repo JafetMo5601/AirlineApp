@@ -1,6 +1,9 @@
 package airlineapp.Menus;
 
 import airlineapp.Login.Logout;
+import airlineapp.Tickets.ConfirmationPageGUI;
+import airlineapp.Tickets.TicketsSaleGUI;
+import javax.swing.JOptionPane;
 
 public class ClientMenuGUI extends javax.swing.JFrame {
     public ClientMenuGUI() {
@@ -8,7 +11,6 @@ public class ClientMenuGUI extends javax.swing.JFrame {
         this.setTitle("Menu!");
         this.setLocationRelativeTo(null);
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -24,8 +26,13 @@ public class ClientMenuGUI extends javax.swing.JFrame {
         lblAirplaneTitle.setText("Client Menu");
         lblAirplaneTitle.setName("lblAirplaneTitle"); // NOI18N
 
-        btnFlights.setText("Flights");
+        btnFlights.setText("Book Flight");
         btnFlights.setName("btnFlights"); // NOI18N
+        btnFlights.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFlightsActionPerformed(evt);
+            }
+        });
 
         btnRefund.setText("Ticket refund");
         btnRefund.setName("btnRefund"); // NOI18N
@@ -59,13 +66,10 @@ public class ClientMenuGUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnFlights)
-                        .addGap(86, 86, 86))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnRefund)
-                        .addGap(66, 66, 66))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRefund, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFlights, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,12 +89,26 @@ public class ClientMenuGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefundActionPerformed
-
+        
     }//GEN-LAST:event_btnRefundActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         new Logout().logOut(this);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnFlightsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlightsActionPerformed
+        int contador = 0;
+        
+        if (contador == 0){
+            new TicketsSaleGUI().setVisible(true);
+            this.setVisible(false);
+            contador++;
+        }else {
+            JOptionPane.showMessageDialog(null, "You already booked", "Information",1);
+            new ConfirmationPageGUI().setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnFlightsActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -99,6 +117,7 @@ public class ClientMenuGUI extends javax.swing.JFrame {
             }
         });
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnFlights;

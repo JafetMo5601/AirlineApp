@@ -10,7 +10,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class NewPerson implements iWindows, iRegistration {
+public class NewPerson implements iWindows, iRegistration{
 
     SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -18,27 +18,27 @@ public class NewPerson implements iWindows, iRegistration {
         String date = null;
         try {
             date = dFormat.format(dateInput);
+            return date;
         } catch (NullPointerException e) {
             System.err.println(e);
             JOptionPane.showMessageDialog(
                     new JFrame(), "You have to enter a birth date!",
                     "Dialog", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            return date;
+            return null;
         }
     }
-
+    
     @Override
-    public void goBack() {
+    public void goBack(){
         new StartWindowGUI().setVisible(true);
     }
-
+    
     @Override
     public String generateSecretKeyNewUser(
             String uID, String uName, String uLast) throws SQLException {
         return "" + uID.charAt(0) + uName.charAt(0) + uLast.charAt(0);
     }
-
+    
     public void createUser(
             String id, String name, String last, String date,
             String email, String password, String sex, String address) {

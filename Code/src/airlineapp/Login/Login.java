@@ -21,7 +21,6 @@ public class Login implements iWindows {
 
     @Override
     public void goBack() {
-        new StartWindowGUI().setVisible(true);
+        new StartWindowGUI().dispose();
     }
-
 }

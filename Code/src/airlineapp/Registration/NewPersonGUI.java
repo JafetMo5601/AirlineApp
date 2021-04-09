@@ -267,7 +267,7 @@ public class NewPersonGUI extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         new NewPerson().goBack();
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtNameInputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNameInputMouseClicked

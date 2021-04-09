@@ -1,5 +1,5 @@
 package airlineapp.Menus;
 
-public class ClientMenu {
+public class ClientMenu{
     
 }

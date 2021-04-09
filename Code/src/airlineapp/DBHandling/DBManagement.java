@@ -3,6 +3,7 @@ package airlineapp.DBHandling;
 import airlineapp.Login.*;
 import airlineapp.Registration.Client;
 import airlineapp.Registration.Worker;
+import airlineapp.Tickets.Tickets;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,5 +139,43 @@ public class DBManagement {
             Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public void saveBook(Tickets book) {
+       try {
+            CallableStatement statement = connectToDB().prepareCall(
+                    "{call SaveBook(?,?,?,?,?,?,?,?)}");
+            statement.setObject(1, book.getId());
+            statement.setObject(2, book.getDate());
+            statement.setObject(3, book.getSource());
+            statement.setObject(4, book.getDestination());
+            statement.setObject(5, book.getDepTime());
+            statement.setObject(6, book.getArrTime());
+            statement.setString(7, book.getfClass());
+            statement.setObject(8, book.getPassengers());
+           
+            statement.execute();
+            statement.close();
+            System.out.println("Book saved!");
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
+    public static CallableStatement RetrieveBook(String ID) throws SQLException {
+        Connection conn = connectToDB();
+        CallableStatement statement
+                = conn.prepareCall("{call RetrieveBook(?,?,?,?)}");
+        try {
+            statement.setString(1, ID);
+            statement.registerOutParameter(2, Types.VARCHAR);
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+            statement.executeUpdate();
+            return statement;
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
     }
 }
