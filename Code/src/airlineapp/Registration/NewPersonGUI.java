@@ -2,11 +2,11 @@ package airlineapp.Registration;
 
 import airlineapp.Authentication.userValidation;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class NewPersonGUI extends javax.swing.JFrame {
-
     public NewPersonGUI() {
         initComponents();
         this.setTitle("New user");
@@ -250,7 +250,19 @@ public class NewPersonGUI extends javax.swing.JFrame {
         }
         try {
             if (userValidation.isWorker(txtEmailInput.getText())) {
-                System.out.println("I am a worker");
+                ArrayList<String> l = new ArrayList<>();
+                l.add(id);
+                l.add(name);
+                l.add(last);
+                l.add(date);
+                l.add(email);
+                l.add(password);
+                l.add(sex);
+                l.add(address);                            
+                NewWorkerGUI w = new NewWorkerGUI();
+                w.setVisible(true);
+                w.setWorkerAttributes(l);
+                this.dispose();
             } else {
                 new NewPerson().createUser(id, name, last, date, email, password,
                         sex, address);

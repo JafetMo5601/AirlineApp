@@ -1,6 +1,6 @@
 package airlineapp.Tickets;
 
-import airlineapp.Menus.ClientMenuGUI;
+import airlineapp.ClientMenu.ClientMenuGUI;
 
 public class ConfirmationPageGUI extends javax.swing.JFrame {
     Tickets t;

@@ -1,5 +1,9 @@
 package airlineapp.Tickets;
 
+import airlineapp.StartWindowGUI;
+import airlineapp.Authentication.userValidation;
+import airlineapp.ClientMenu.ClientMenuGUI;
+import airlineapp.Login.LoginSession;
 import airlineapp.Registration.NewPerson;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -97,6 +101,11 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
 
         btnCancel.setText("Cancel");
         btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         btnBook.setText("Book");
         btnBook.setName("btnBook"); // NOI18N
@@ -230,6 +239,14 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
             id, date, source, destination, depTime,
             arrTime, fClass, passengers).setVisible(true);
     }//GEN-LAST:event_btnBookActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        if(new userValidation().isWorker(new LoginSession().email)) {
+            new StartWindowGUI().setVisible(true);
+        } else {
+            new ClientMenuGUI().setVisible(true);
+        }
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

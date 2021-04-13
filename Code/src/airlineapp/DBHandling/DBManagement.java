@@ -7,6 +7,7 @@ import airlineapp.Tickets.Tickets;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class DBManagement {
 
@@ -27,7 +28,8 @@ public class DBManagement {
             connection.close();
             System.out.println("DB Connection closed!");
         } catch (SQLException ex) {
-            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
     }
 
@@ -78,7 +80,67 @@ public class DBManagement {
         }
     }
 
-    public static CallableStatement userRetrieve(String emailParamenter) throws SQLException {
+    public static void deleteWorker(String id) {
+        Connection conn = connectToDB();
+        try {
+            CallableStatement statement = conn.prepareCall(
+                    "{call DeleteWorker(?)}");
+            statement.setObject(1, id);
+            statement.execute();
+            statement.close();
+            JOptionPane.showMessageDialog(null, "Deleted");
+        } catch (Exception e) {
+            System.err.println(e);
+        } finally {
+            closeDBConnection(conn);
+        }
+    }
+
+    public static void updateWorker(String id, String name, String last,
+            String email, String date, String sex, String address) {
+        Connection conn = connectToDB();
+        try {
+            CallableStatement statement = conn.prepareCall(
+                    "{call UpdateWorkerInfo(?,?,?,?,?,?,?)}");
+            statement.setObject(1, id);
+            statement.setObject(2, name);
+            statement.setObject(3, last);
+            statement.setObject(4, email);
+            statement.setObject(5, date);
+            statement.setObject(6, sex);
+            statement.setObject(7, address);
+            statement.execute();
+            statement.close();
+            JOptionPane.showMessageDialog(null, "Updated");
+        } catch (Exception e) {
+            System.err.println(e);
+        } finally {
+            closeDBConnection(conn);
+        }
+    }
+
+    public static CallableStatement workerRetrieve(String IDParamenter)
+            throws SQLException {
+        Connection conn = connectToDB();
+        CallableStatement statement
+                = conn.prepareCall("{call WorkerRetrieve(?,?,?,?,?,?)}");
+        try {
+            statement.setObject(1, IDParamenter);
+            statement.registerOutParameter(2, Types.VARCHAR);
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+            statement.registerOutParameter(5, Types.VARCHAR);
+            statement.registerOutParameter(6, Types.VARCHAR);
+            statement.executeUpdate();
+            return statement;
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
+    }
+
+    public static CallableStatement userRetrieve(String emailParamenter)
+            throws SQLException {
         Connection conn = connectToDB();
         CallableStatement statement
                 = conn.prepareCall("{call UserRetrieve(?,?,?,?)}");
@@ -105,44 +167,95 @@ public class DBManagement {
             statement.registerOutParameter(3, Types.VARCHAR);
             statement.registerOutParameter(4, Types.VARCHAR);
             statement.executeUpdate();
-            if (thereAreOutputs(statement)) {
-                setLoginAttributes(statement);
+            if (thereAreOutputsU(statement)) {
+                setLoginUAttributes(statement);
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
         } finally {
             closeDBConnection(conn);
         }
         return false;
     }
 
-    public static void setLoginAttributes(CallableStatement statement) {
+    public static boolean loginWorker(
+            String email, String password) {
+        Connection conn = connectToDB();
+        CallableStatement statement = null;
         try {
-            System.out.println(statement.getObject("out_name").toString());
-            System.out.println(statement.getObject("out_email").toString());
+            statement = conn.prepareCall("call LoginWorker(?,?,?,?,?)");
+            statement.setString(1, email);
+            statement.setString(2, password);
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+            statement.registerOutParameter(5, Types.VARCHAR);
+            statement.executeUpdate();
+            if (thereAreOutputsW(statement)) {
+                setLoginWAttributes(statement);
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } finally {
+            closeDBConnection(conn);
+        }
+        return false;
+    }
+
+    public static void setLoginUAttributes(CallableStatement statement) {
+        try {
             LoginSession.name = statement.getObject("out_name").toString();
             LoginSession.email = statement.getObject("out_email").toString();
             LoginSession.isLoggedIn = true;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
     }
 
-    public static boolean thereAreOutputs(CallableStatement statement) {
+    public static void setLoginWAttributes(CallableStatement statement) {
+        try {
+            LoginSession.name = statement.getObject("out_name").toString();
+            LoginSession.email = statement.getObject("out_email").toString();
+            LoginSession.access = Integer.parseInt(statement
+                    .getObject("out_access").toString());
+            LoginSession.isLoggedIn = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static boolean thereAreOutputsU(CallableStatement statement) {
         try {
             if (statement.getObject("out_name") != null
                     && statement.getObject("out_email") != null) {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBManagement.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
+    public static boolean thereAreOutputsW(CallableStatement statement) {
+        try {
+            if (statement.getObject("out_name") != null
+                    && statement.getObject("out_email") != null) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManagement.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public void saveBook(Tickets book) {
-       try {
+        try {
             CallableStatement statement = connectToDB().prepareCall(
                     "{call SaveBook(?,?,?,?,?,?,?,?)}");
             statement.setObject(1, book.getId());
@@ -153,7 +266,7 @@ public class DBManagement {
             statement.setObject(6, book.getArrTime());
             statement.setString(7, book.getfClass());
             statement.setObject(8, book.getPassengers());
-           
+
             statement.execute();
             statement.close();
             System.out.println("Book saved!");
@@ -161,7 +274,7 @@ public class DBManagement {
             System.err.println(e);
         }
     }
-    
+
     public static CallableStatement RetrieveBook(String ID) throws SQLException {
         Connection conn = connectToDB();
         CallableStatement statement

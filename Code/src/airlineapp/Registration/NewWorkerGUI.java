@@ -1,14 +1,21 @@
 package airlineapp.Registration;
 
-import airlineapp.StartWindowGUI;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class NewWorkerGUI extends javax.swing.JFrame {
+
+    private ArrayList wA;
     public NewWorkerGUI() {
         initComponents();
         this.setTitle("New Employee");
         this.setLocationRelativeTo(null);
+    }   
+    
+    public void setWorkerAttributes(ArrayList wA){
+        this.wA = wA;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -126,11 +133,25 @@ public class NewWorkerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_rdbVendorAccessActionPerformed
 
     private void btnContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueActionPerformed
+        String access = null;
+        if (rdbAdminAccess.isSelected()) {
+            access = "0";
+        } else if (rdbVendorAccess.isSelected()) {
+            access = "1";
+        } else {
+            JOptionPane.showMessageDialog(null, "Should select and option for the access!");
+        }
+        new NewWorker().createWorker(wA.get(0).toString(), wA.get(1).toString(),
+                wA.get(2).toString(), wA.get(3).toString(), wA.get(4).toString(),
+                wA.get(5).toString(), wA.get(6).toString(), wA.get(7).toString(),
+                access);
+        new NewWorker().goBack();
+        this.dispose();
     }//GEN-LAST:event_btnContinueActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         new NewWorker().goBack();
-        this.setVisible(false);              
+        this.dispose();              
     }//GEN-LAST:event_btnCancelActionPerformed
 
     public static void main(String args[]) {

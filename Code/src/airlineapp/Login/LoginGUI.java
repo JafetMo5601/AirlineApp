@@ -1,5 +1,7 @@
 package airlineapp.Login;
 
+import airlineapp.Authentication.userValidation;
+
 public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
@@ -150,8 +152,14 @@ public class LoginGUI extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String email = txtEmailInput.getText();
         String password = String.copyValueOf(txtPasswordInput.getPassword());
-        new Login().verifyUser(email, password);
-        this.dispose();
+        Login login = new Login();
+        if (userValidation.isWorker(txtEmailInput.getText())) {
+            login.verifyWorker(email, password);
+            this.dispose();
+        } else {
+            login.verifyUser(email, password);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     public static void main(String args[]) {

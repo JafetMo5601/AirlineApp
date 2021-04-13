@@ -1,7 +1,8 @@
 package airlineapp.DBHandling;
 
 import airlineapp.Authentication.iAuthentication;
-import static airlineapp.DBHandling.DBManagement.userRetrieve;
+import static airlineapp.DBHandling.DBManagement.*;
+import airlineapp.Authentication.userValidation;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -16,7 +17,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-public class Encryptation implements iAuthentication{
+public class Encryptation implements iAuthentication {
 
     private static SecretKeySpec secretKey;
     private static byte[] key;
@@ -56,15 +57,21 @@ public class Encryptation implements iAuthentication{
         }
         return null;
     }
-    
-    public String generateEncryptedPassword(String email, String password){
-        String secretKey = generateSecretKey(email);
-        String encryptedPassword = encrypt(password, secretKey);
-        return encryptedPassword;
+
+    public String generateEncryptedPassword(String email, String password) {
+        if (!userValidation.isWorker(email)) {
+            String secretKey = generateSecretKeyU(email);
+            String encryptedPassword = encrypt(password, secretKey);
+            return encryptedPassword;
+        } else {
+            String secretKey = generateSecretKeyW(email);
+            String encryptedPassword = encrypt(password, secretKey);
+            return encryptedPassword;
+        }
     }
-    
+
     @Override
-    public String generateSecretKey(String userEmail) {
+    public String generateSecretKeyU(String userEmail) {
         try {
             CallableStatement s = userRetrieve(userEmail);
             return "" + s.getString("out_user_id").charAt(0)
@@ -72,7 +79,22 @@ public class Encryptation implements iAuthentication{
                     + s.getString("out_last_name").charAt(0);
         } catch (SQLException ex) {
             System.err.println("There was an issue running the stored procedure."
-                    + "\n Issue description: "+ ex.getMessage());
+                    + "\n Issue description: " + ex.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public String generateSecretKeyW(String workerEmail) {
+        System.out.println("Entering here!");
+        try {
+            CallableStatement s = workerRetrieve(workerEmail);
+            return "" + s.getString("out_worker_id").charAt(0)
+                    + s.getString("out_name").charAt(0)
+                    + s.getString("out_last_name").charAt(0);
+        } catch (SQLException ex) {
+            System.err.println("There was an issue running the stored procedure."
+                    + "\n Issue description: " + ex.getMessage());
         }
         return null;
     }
