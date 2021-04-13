@@ -1,52 +1,46 @@
 package airlineapp.EmployeeManagement;
 
+import airlineapp.Login.LoginSession;
 import javax.swing.JOptionPane;
 
-final class EmployeePayment {
-    private double salary;
-    private double taxes;
-    private double comision;
-    private double salPerHour;
-    private int workHours;
-    private double total;
+public class EmployeePayment {
+    double workHours = 8;
+    double salPerHour = 3000.00;
+    double salary = (salPerHour * workHours);
+    double taxes = 0.105  * salary;
+    double comission = 0.10 * salary;
+    double total = salary - (taxes + comission);    
 
-    public void calculateSalary() {
-        workHours = 8;
-        salPerHour = 2.000;
-        salPerHour = 1.608;
-        salary = (salPerHour * (workHours * 2));
-        taxes = (10.5 * salary) / 100;
-        comision = (10 * salary) / 100;
-        total = (salary - taxes - comision);
+    public double adminPayment() {
+        return total * 1.20;
+    }
 
+    public void showVendorSalary() {
         JOptionPane.showMessageDialog(null,
                 "\nSalary per hour " + salPerHour
-                + "\nWork hours: " + workHours
-                + "\nTaxes to pay: " + taxes + "%"
-                + "\nComision to pay: " + comision + "%"
-                + "\nNet salary to pay: " + salary
-                + "\nSalary to pay: " + total
-                + -1);
+                + "\nWorked hours: " + workHours
+                + "\nTaxes: " + taxes + " (10.5%)"
+                + "\nComissions: " + comission + " (10%)"
+                + "\nNet salary: " + salary
+                + "\nTotal daily salary: " + total);
+    }
+
+    public void showAdminSalary() {
+        JOptionPane.showMessageDialog(null,
+                "\nSalary per hour " + salPerHour
+                + "\nWorked hours: " + workHours
+                + "\nTaxes: " + taxes + " (10.5%)"
+                + "\nComissions: " + comission + " (10%)"
+                + "\nNet salary: " + salary
+                + "\nBonus per seniority: +20%"
+                + "\nTotal dayli salary: " + adminPayment());
     }
 
     public void showSalary() {
-        System.out.println("\nPlease, choose your work position");
-        Object[] options = {"Administradors", "Vendors"};
-        Object optionChoose = JOptionPane.showInputDialog(null, "Employ Payment Management", "Please, choose an option",
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-
-        if (optionChoose.equals("Administradors")) {
-            EmployeePayment em = new EmployeePayment();
-            em.calculateSalary();
-        } else if (optionChoose.equals("Vendors")) {
-            EmployeePayment em = new EmployeePayment();
-            em.calculateSalary();
+        if (LoginSession.access == 0) {
+            showAdminSalary();
         } else {
-            System.out.println("Option not valid");
+            showVendorSalary();
         }
     }
-
-    public void paySalary() {
-    }
-
 }

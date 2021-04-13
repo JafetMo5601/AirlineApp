@@ -1,135 +1,82 @@
 package airlineapp.EmployeeManagement;
 
-public class EmployeeManagementGUI extends javax.swing.JPanel {
-
+public class EmployeeManagementGUI extends javax.swing.JFrame {
     public EmployeeManagementGUI() {
         initComponents();
+        this.setTitle("Employee Management");
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         JLtitulo = new javax.swing.JLabel();
         JLopciones = new javax.swing.JLabel();
-        JBcrear = new javax.swing.JButton();
-        JBedi = new javax.swing.JButton();
-        JBelim = new javax.swing.JButton();
-        JBregresar = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         JLtitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         JLtitulo.setText("Employ Management");
 
         JLopciones.setText("Please choose the option you want to do");
 
-        JBcrear.setText("Search Worker");
-        JBcrear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JBcrearMouseClicked(evt);
-            }
-        });
-        JBcrear.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setText("Search Worker");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBcrearActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
-        JBedi.setText("Edit Worker");
-        JBedi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JBediMouseClicked(evt);
-            }
-        });
-        JBedi.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setText("Edit Worker");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBediActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
 
-        JBelim.setText("Delete Worker");
-        JBelim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JBelimMouseClicked(evt);
-            }
-        });
-        JBelim.addActionListener(new java.awt.event.ActionListener() {
+        btnRemove.setText("Remove Worker");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBelimActionPerformed(evt);
+                btnRemoveActionPerformed(evt);
             }
         });
 
-        JBregresar.setText("Back");
-        JBregresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JBregresarMouseClicked(evt);
-            }
-        });
-        JBregresar.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBregresarActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnBack)
+                .addGap(150, 150, 150))
             .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(JBregresar)
+                .addContainerGap()
+                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRemove)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(JBcrear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JBedi)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JBelim)
-                        .addGap(6, 6, 6))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(JLtitulo)
-                        .addGap(78, 78, 78))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(JLopciones)
-                        .addGap(57, 57, 57))))
+                        .addGap(21, 21, 21))
+                    .addComponent(JLopciones, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,56 +85,38 @@ public class EmployeeManagementGUI extends javax.swing.JPanel {
                 .addComponent(JLtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JLopciones)
-                .addGap(52, 52, 52)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JBelim)
-                    .addComponent(JBcrear)
-                    .addComponent(JBedi))
-                .addGap(46, 46, 46)
-                .addComponent(JBregresar)
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(btnSearch)
+                    .addComponent(btnEdit)
+                    .addComponent(btnRemove))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(btnBack)
+                .addContainerGap())
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JBediActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBediActionPerformed
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBediActionPerformed
-
-    private void JBcrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBcrearActionPerformed
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBcrearActionPerformed
-
-    private void JBcrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JBcrearMouseClicked
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBcrearMouseClicked
-
-    private void JBregresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JBregresarMouseClicked
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new AdministratorGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBregresarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
-    private void JBediMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JBediMouseClicked
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBediMouseClicked
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        new SearchWorkerInfoGUI().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void JBelimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JBelimMouseClicked
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBelimMouseClicked
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        new EditEmployeeInfoGUI().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void JBelimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBelimActionPerformed
-        new SearchGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBelimActionPerformed
-
-    private void JBregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBregresarActionPerformed
-        new AdministratorGUI().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_JBregresarActionPerformed
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        new SearchWorkerInfoGUI().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -198,14 +127,11 @@ public class EmployeeManagementGUI extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton JBcrear;
-    private javax.swing.JButton JBedi;
-    private javax.swing.JButton JBelim;
-    private javax.swing.JButton JBregresar;
     private javax.swing.JLabel JLopciones;
     private javax.swing.JLabel JLtitulo;
-    private javax.swing.JFrame jFrame1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnSearch;
     // End of variables declaration//GEN-END:variables
 }

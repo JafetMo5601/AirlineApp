@@ -2,10 +2,13 @@ package airlineapp.EmployeeManagement;
 
 import airlineapp.DBHandling.DBManagement;
 import airlineapp.Registration.NewPerson;
+import javax.swing.JOptionPane;
 
 public class EditEmployeeInfoGUI extends javax.swing.JFrame {
     public EditEmployeeInfoGUI() {
         initComponents();
+        this.setTitle("Edit the employee info");
+        this.setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -243,12 +246,14 @@ public class EditEmployeeInfoGUI extends javax.swing.JFrame {
             sex = "F";
         }
         new DBManagement().updateWorker(id, name, last, email, date, sex, address);
-        this.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Information updated!");
         new SearchWorkerInfoGUI().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new SearchWorkerInfoGUI().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     public static void main(String args[]) {
