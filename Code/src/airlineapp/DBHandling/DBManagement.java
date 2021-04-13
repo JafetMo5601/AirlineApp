@@ -138,6 +138,27 @@ public class DBManagement {
             return null;
         }
     }
+    
+    public static CallableStatement workerRetrieveID(String id) {
+        Connection conn = connectToDB();
+        try {
+            CallableStatement statement
+                    = conn.prepareCall("{call WorkerRetrieveID(?,?,?,?,?)}");
+            statement.setObject(1, id);
+            statement.registerOutParameter(2, Types.VARCHAR);
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+            statement.registerOutParameter(5, Types.VARCHAR);
+            statement.executeUpdate();
+            return statement;
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "There was a problem with the "
+                    + "server try later!");
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
 
     public static CallableStatement userRetrieve(String emailParamenter)
             throws SQLException {
@@ -257,7 +278,7 @@ public class DBManagement {
     public void saveBook(Tickets book) {
         try {
             CallableStatement statement = connectToDB().prepareCall(
-                    "{call SaveBook(?,?,?,?,?,?,?,?)}");
+                    "{call SaveBook(?,?,?,?,?,?,?,?,?)}");
             statement.setObject(1, book.getId());
             statement.setObject(2, book.getDate());
             statement.setObject(3, book.getSource());
@@ -266,7 +287,7 @@ public class DBManagement {
             statement.setObject(6, book.getArrTime());
             statement.setString(7, book.getfClass());
             statement.setObject(8, book.getPassengers());
-
+            statement.setObject(9, book.getOwner());
             statement.execute();
             statement.close();
             System.out.println("Book saved!");
