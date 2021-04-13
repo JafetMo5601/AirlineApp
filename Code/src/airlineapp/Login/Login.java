@@ -7,7 +7,7 @@ import airlineapp.EmployeeManagement.AdministratorGUI;
 import airlineapp.StartWindowGUI;
 import airlineapp.Tickets.TicketsSaleGUI;
 import airlineapp.iWindows;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class Login implements iWindows {
@@ -27,9 +27,12 @@ public class Login implements iWindows {
         String encryptedPassword = e.generateEncryptedPassword(email, password);
         if (DBManagement.loginWorker(email, encryptedPassword)) {
             try {
+                System.out.println(isAdmin(DBManagement.workerRetrieve(email)));
                 if (isAdmin(DBManagement.workerRetrieve(email))){
+                    System.out.println("Entre como admin");
                     new AdministratorGUI().setVisible(true);
                 } else {
+                    System.out.println("Entre como vendor");
                     new TicketsSaleGUI().setVisible(true);
                 }
             } catch (SQLException ex) {
@@ -41,12 +44,9 @@ public class Login implements iWindows {
         }
     }
     
-    public boolean isAdmin(java.sql.CallableStatement st) throws SQLException{
-        if (st.getObject("out_admin_access") == "0"){
-            return false;
-        } else {
-            return true;
-        }
+    public boolean isAdmin(CallableStatement st) throws SQLException{
+        System.out.println(st.getObject("out_admin_access"));
+        return st.getObject("out_admin_access").toString().equals("0");
     }
 
     @Override
