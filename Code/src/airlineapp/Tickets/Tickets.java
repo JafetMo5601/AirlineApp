@@ -1,27 +1,14 @@
 package airlineapp.Tickets;
 
-import airlineapp.DBHandling.DBManagement;
 import airlineapp.StartWindowGUI;
 import airlineapp.iWindows;
-import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 public class Tickets implements iWindows {
-
     private String id, date, source,
-            destination, depTime, arrTime, fClass, passengers;
+            destination, depTime, arrTime, fClass, passengers, owner;
 
-    int leftLimit = 97; // letter 'a'
-    int rightLimit = 122; // letter 'z'
-    int targetStringLength = 6;
-
-    public Tickets() {
-    }
-
-    public Tickets(
-            String id, String date, String source, String destination, 
-            String depTime, String arrTime, String fClass, String passengers) {
+    public Tickets(String id, String date, String source, String destination, 
+            String depTime, String arrTime, String fClass, String passengers, String owner) {
         this.id = id;
         this.date = date;
         this.source = source;
@@ -30,33 +17,9 @@ public class Tickets implements iWindows {
         this.arrTime = arrTime;
         this.fClass = fClass;
         this.passengers = passengers;
+        this.owner = owner;
     }
     
-    public void saveTicket(
-            String id, String date, String source, String destination, 
-            String depTime, String arrTime, String fClass, String passengers) {
-        try {
-            Tickets t = new Tickets(
-                    id, date, source, destination, depTime, arrTime, fClass, passengers);
-            new DBManagement().saveBook(t);
-            JOptionPane.showMessageDialog(null, "Booked!");
-        } catch (Exception e) {
-            System.err.println(e);
-            JOptionPane.showMessageDialog(
-                    new JFrame(), "There is a problem with the server, try it later.",
-                    "Dialog", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    public String getRandomString() {
-        Random random = new Random();
-        String randomString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-        return randomString;
-    }
-
     public String getId() {
         return id;
     }
@@ -121,9 +84,16 @@ public class Tickets implements iWindows {
         this.date = date;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+    
     @Override
     public void goBack() {
         new StartWindowGUI().setVisible(true);
     }
-
 }

@@ -2,42 +2,24 @@ package airlineapp.Tickets;
 
 import airlineapp.ClientMenu.ClientMenuGUI;
 
-public class ConfirmationPageGUI extends javax.swing.JFrame {
-    Tickets t;
-    String id,date,source,destination,depTime,arrTime,FClass,passengers;
-
-    public ConfirmationPageGUI(
-            String id, String date, String source, String destination, 
-            String depTime, String arrTime, String FClass, String passengers) {
-        this.id = id;
-        this.date = date;
-        this.source = source;
-        this.destination = destination;
-        this.depTime = depTime;
-        this.arrTime = arrTime;
-        this.FClass = FClass;
-        this.passengers = passengers;
-        initComponents();
-        rellenarDatos();
-    }
-    
+public class ConfirmationPageGUI extends javax.swing.JFrame {    
     public ConfirmationPageGUI() {
         initComponents();
         this.setTitle("Purchase");
         this.setLocationRelativeTo(null);
-        t = new Tickets();
-        rellenarDatos();
     }
     
-    public void rellenarDatos(){
-        jftiID.setText(id);
-        jftDate.setText(date);
-        jftSource.setText(source);
-        jftDestination.setText(destination);
-        jftDeparture.setText(depTime);
-        jftArrTime.setText(arrTime);
-        jftFClass.setText(FClass);
-        jftPassengers.setText(passengers);
+    public void rellenarDatos(Tickets t){
+        this.setVisible(true);
+        jftiID.setText(t.getId());
+        jftDate.setText(t.getDate());
+        jftSource.setText(t.getSource());
+        jftDestination.setText(t.getDestination());
+        jftDeparture.setText(t.getDepTime());
+        jftArrTime.setText(t.getArrTime());
+        jftFClass.setText(t.getfClass());
+        jftPassengers.setText(t.getPassengers());
+        jftOwner.setText(t.getOwner());
     }
   
     @SuppressWarnings("unchecked")
@@ -62,6 +44,8 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
         jftDeparture = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jftArrTime = new javax.swing.JFormattedTextField();
+        lblOwner = new javax.swing.JLabel();
+        jftOwner = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,6 +96,10 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
 
         jftArrTime.setEditable(false);
 
+        lblOwner.setText("Owner");
+
+        jftOwner.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,48 +107,49 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4))
-                                        .addGap(21, 21, 21))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel5))
-                                        .addGap(18, 18, 18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jftSource, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jftDate, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jftiID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                    .addComponent(jftDestination)
-                                    .addComponent(jftDeparture)
-                                    .addComponent(jftArrTime)
-                                    .addComponent(jftFClass)
-                                    .addComponent(jftPassengers)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(21, 21, 21))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jftSource, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                            .addComponent(jftDate, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jftDestination)
+                            .addComponent(jftDeparture)
+                            .addComponent(jftArrTime)
+                            .addComponent(jftFClass)
+                            .addComponent(jftPassengers)
+                            .addComponent(jftOwner, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jftiID, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(lblOwner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 38, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jftiID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -192,9 +181,17 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jftPassengers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jftOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblOwner))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -205,8 +202,8 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jftFClassActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.setVisible(false);
        new ClientMenuGUI().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -233,8 +230,10 @@ public class ConfirmationPageGUI extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jftDeparture;
     private javax.swing.JFormattedTextField jftDestination;
     private javax.swing.JFormattedTextField jftFClass;
+    private javax.swing.JFormattedTextField jftOwner;
     private javax.swing.JFormattedTextField jftPassengers;
     private javax.swing.JFormattedTextField jftSource;
     private javax.swing.JFormattedTextField jftiID;
+    private javax.swing.JLabel lblOwner;
     // End of variables declaration//GEN-END:variables
 }
