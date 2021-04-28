@@ -5,14 +5,21 @@ import airlineapp.Authentication.userValidation;
 import airlineapp.ClientMenu.ClientMenuGUI;
 import airlineapp.Login.LoginSession;
 import airlineapp.Registration.NewPerson;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class TicketsSaleGUI extends javax.swing.JFrame {
+    
+    private hiloTickets hilo = new hiloTickets(this);
+    private ExecutorService service;
     public TicketsSaleGUI() {
         initComponents();
         this.setTitle("Buy tickets!");
         this.setLocationRelativeTo(null);
+        service = Executors.newFixedThreadPool(1);
+        service.submit(hilo);
     }
     
     public String ownerVerification(String owner){
@@ -64,7 +71,7 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
         lblSource.setText("Source");
         lblSource.setName("lblSource"); // NOI18N
 
-        cbxSource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USA", "Mexico", "Panama", "Colombia" }));
+        cbxSource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USA", "Mexico", "Panama", "Colombia", "Costa Rica" }));
         cbxSource.setName("cbxSource"); // NOI18N
         cbxSource.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,7 +82,7 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
         lblDestination.setText("Destination");
         lblDestination.setName("lblDestination"); // NOI18N
 
-        cbxDestination.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USA", "Mexico", "Panama", "Colombia" }));
+        cbxDestination.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USA", "Mexico", "Panama", "Colombia", "Costa Rica" }));
         cbxDestination.setName("cbxDestination"); // NOI18N
 
         lblDepartureTime.setText("Departure Time");
@@ -253,6 +260,9 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
         String depTime = cbxDepartureTime.getSelectedItem().toString();
         String arrTime = cbxArrivalTime.getSelectedItem().toString();
         String fClass = cbxFlightClass.getSelectedItem().toString();
+        if(Integer.parseInt(txtPassengers.getText()) == 0){
+            JOptionPane.showMessageDialog(null, "The minimun number of passenger is 1", "Incorrect Number", 0);
+        }else { 
         String passengers = txtPassengers.getText();
         String owner = ownerVerification(txtTicketOwner.getText());
         try {
@@ -266,6 +276,7 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
                 "Dialog", JOptionPane.ERROR_MESSAGE);
         }
         this.dispose();
+        }
     }//GEN-LAST:event_btnBookActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -286,6 +297,7 @@ public class TicketsSaleGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TicketsSaleGUI().setVisible(true);
+                
             }
         });
     }
