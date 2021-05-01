@@ -50,6 +50,7 @@ public class NewPerson implements iWindows, iRegistration{
             Client c = new Client(
                     id, name, last, date, email, encryptedPassword, sex, address
             );
+            c.whatAmI();
             new DBManagement().insertNewUser(c);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(

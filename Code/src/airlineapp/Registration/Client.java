@@ -7,4 +7,8 @@ public class Client extends Person{
             String email, String password, String sex, String address) {
         super(id, name, last_name, birthday, email, password, sex, address);
     }
+    
+    public void whatAmI(){
+        System.out.println("I am a Client");
+    }
 }

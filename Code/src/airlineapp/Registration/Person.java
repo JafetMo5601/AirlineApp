@@ -15,6 +15,10 @@ abstract class Person {
         this.sex = sex;
         this.address = address;
     }
+    
+    public void whatIAm(){
+        System.out.println("I am a Person");
+    }
 
     public String getId() {
         return id;

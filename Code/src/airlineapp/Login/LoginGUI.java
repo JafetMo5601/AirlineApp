@@ -154,11 +154,9 @@ public class LoginGUI extends javax.swing.JFrame {
         String password = String.copyValueOf(txtPasswordInput.getPassword());
         Login login = new Login();
         if (userValidation.isWorker(txtEmailInput.getText())) {
-            login.verifyWorker(email, password);
-            this.dispose();
+            login.verifyWorker(email, password, this);
         } else {
-            login.verifyUser(email, password);
-            this.dispose();
+            login.verifyUser(email, password, this);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

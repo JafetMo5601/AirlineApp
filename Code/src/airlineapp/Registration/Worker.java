@@ -11,6 +11,10 @@ public class Worker extends Person {
         super(id, name, last_name, birthday, email, password, sex, address);
         this.adminAcces = adminAcces;
     }
+    
+    public void whatIAm(){
+        System.out.println("I am a Worker");
+    }
 
     public String getAdminAcces() {
         return adminAcces;

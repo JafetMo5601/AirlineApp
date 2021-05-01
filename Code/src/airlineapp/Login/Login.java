@@ -8,21 +8,23 @@ import airlineapp.StartWindowGUI;
 import airlineapp.Tickets.TicketsSaleGUI;
 import airlineapp.iWindows;
 import java.sql.*;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Login implements iWindows {
-    public void verifyUser(String email, String password) {
+    public void verifyUser(String email, String password, JFrame context) {
         Encryptation e = new Encryptation();
         String encryptedPassword = e.generateEncryptedPassword(email, password);
         if (DBManagement.loginUser(email, encryptedPassword)) {
             new ClientMenuGUI().setVisible(true);
+            context.dispose();
         } else {
             JOptionPane.showMessageDialog(null,
                     "The user email or password are incorrect!");
         }
     }
     
-    public void verifyWorker(String email, String password){
+    public void verifyWorker(String email, String password, JFrame context){
         Encryptation e = new Encryptation();
         String encryptedPassword = e.generateEncryptedPassword(email, password);
         if (DBManagement.loginWorker(email, encryptedPassword)) {
@@ -31,9 +33,11 @@ public class Login implements iWindows {
                 if (isAdmin(DBManagement.workerRetrieve(email))){
                     System.out.println("Entre como admin");
                     new AdministratorGUI().setVisible(true);
+                    context.dispose();
                 } else {
                     System.out.println("Entre como vendor");
                     new TicketsSaleGUI().setVisible(true);
+                    context.dispose();
                 }
             } catch (SQLException ex) {
                 System.out.println(ex);

@@ -25,6 +25,7 @@ public class NewWorker implements iWindows {
         String encryptedPassword = e.encrypt(password, secretKey);
         Worker w = new Worker(access, id, name, last, date, email,
                 encryptedPassword, sex, address);
+        w.whatIAm();
         new DBManagement().insertNewWorker(w);
         JOptionPane.showMessageDialog(null, "Worker created successfully!");
 
